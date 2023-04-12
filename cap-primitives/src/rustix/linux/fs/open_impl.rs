@@ -138,17 +138,18 @@ pub(crate) fn open_beneath(
 /// Test whether `openat2` is supported on the currently running OS.
 #[cfg(target_os = "android")]
 fn openat2_supported() -> bool {
-    // `openat2` is supported in Linux 5.6 and later. Parse the current
-    // Linux version from the `release` field from `uname` to detect this.
-    let uname = rustix::process::uname();
-    let release = uname.release().to_bytes();
-    if let Some((major, minor)) = linux_major_minor(release) {
-        if major >= 6 || (major == 5 && minor >= 6) {
-            return true;
-        }
-    }
-
     false
+    // // `openat2` is supported in Linux 5.6 and later. Parse the current
+    // // Linux version from the `release` field from `uname` to detect this.
+    // let uname = rustix::process::uname();
+    // let release = uname.release().to_bytes();
+    // if let Some((major, minor)) = linux_major_minor(release) {
+    //     if major >= 6 || (major == 5 && minor >= 6) {
+    //         return true;
+    //     }
+    // }
+
+    // false
 }
 
 /// Extract the major and minor values from a Linux `release` string.
