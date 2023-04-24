@@ -27,5 +27,6 @@ pub(crate) fn not_found() -> io::Error {
 
 #[cfg(windows)]
 pub(crate) fn not_found() -> io::Error {
-    io::Error::from_raw_os_error(windows_sys::Win32::Foundation::ERROR_PATH_NOT_FOUND as i32)
+    const ERROR_PATH_NOT_FOUND: i32 = 3;
+    io::Error::from_raw_os_error(ERROR_PATH_NOT_FOUND)
 }
