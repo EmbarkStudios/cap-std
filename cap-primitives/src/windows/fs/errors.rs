@@ -1,5 +1,5 @@
+use crate::windows::bindings as Foundation;
 use std::io;
-use windows_sys::Win32::Foundation;
 
 #[cold]
 pub(crate) fn no_such_file_or_directory() -> io::Error {

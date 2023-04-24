@@ -1,4 +1,5 @@
 use crate::fs::{errors, OpenOptions};
+use crate::windows::bindings::{FILE_FLAG_BACKUP_SEMANTICS, FILE_SHARE_READ, FILE_SHARE_WRITE};
 use crate::AmbientAuthority;
 use std::ffi::OsString;
 use std::ops::Deref;
@@ -6,9 +7,6 @@ use std::os::windows::ffi::{OsStrExt, OsStringExt};
 use std::os::windows::fs::OpenOptionsExt;
 use std::path::{Path, PathBuf};
 use std::{fs, io};
-use windows_sys::Win32::Storage::FileSystem::{
-    FILE_FLAG_BACKUP_SEMANTICS, FILE_SHARE_READ, FILE_SHARE_WRITE,
-};
 
 /// Rust's `Path` implicitly strips redundant slashes, however they aren't
 /// redundant in one case: at the end of a path they indicate that a path is

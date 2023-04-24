@@ -44,10 +44,8 @@ pub(crate) fn canonicalize_with(
         }
         #[cfg(windows)]
         Err(err)
-            if err.raw_os_error()
-                == Some(windows_sys::Win32::Foundation::ERROR_INVALID_NAME as _)
-                || err.raw_os_error()
-                    == Some(windows_sys::Win32::Foundation::ERROR_DIRECTORY as _) =>
+            if err.raw_os_error() == Some(123 /* ERROR_INVALID_NAME */)
+                || err.raw_os_error() == Some(267 /* ERROR_DIRECTORY */) =>
         {
             return Err(err);
         }

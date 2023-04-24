@@ -1,12 +1,11 @@
 use crate::fs::{get_access_mode, get_flags_and_attributes, OpenOptions};
+use crate::windows::bindings::{
+    FILE_FLAG_DELETE_ON_CLOSE, FILE_FLAG_WRITE_THROUGH, FILE_GENERIC_READ, FILE_GENERIC_WRITE,
+    GENERIC_READ, GENERIC_WRITE, SECURITY_CONTEXT_TRACKING, SECURITY_DELEGATION,
+    SECURITY_EFFECTIVE_ONLY, SECURITY_IDENTIFICATION, SECURITY_IMPERSONATION,
+};
 use io_lifetimes::AsHandle;
 use std::{fs, io};
-use windows_sys::Win32::Foundation::{GENERIC_READ, GENERIC_WRITE};
-use windows_sys::Win32::Storage::FileSystem::{
-    FILE_FLAG_DELETE_ON_CLOSE, FILE_FLAG_WRITE_THROUGH, FILE_GENERIC_READ, FILE_GENERIC_WRITE,
-    SECURITY_CONTEXT_TRACKING, SECURITY_DELEGATION, SECURITY_EFFECTIVE_ONLY,
-    SECURITY_IDENTIFICATION, SECURITY_IMPERSONATION,
-};
 use winx::file::{AccessMode, Flags, ShareMode};
 
 /// Implementation of `reopen`.

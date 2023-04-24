@@ -8,6 +8,10 @@ use crate::fs::{
     errors, file_path, get_access_mode, get_creation_mode, get_flags_and_attributes,
     FollowSymlinks, OpenOptions, OpenUncheckedError, SymlinkKind,
 };
+use crate::windows::bindings::{
+    self as Foundation, CreateFileW, ERROR_ACCESS_DENIED, FILE_ATTRIBUTE_DIRECTORY,
+    FILE_FLAG_OPEN_REPARSE_POINT, HANDLE, INVALID_HANDLE_VALUE,
+};
 use crate::{ambient_authority, AmbientAuthority};
 use std::convert::TryInto;
 use std::ffi::OsStr;
@@ -16,10 +20,6 @@ use std::os::windows::fs::MetadataExt;
 use std::os::windows::io::{AsRawHandle, FromRawHandle, OwnedHandle};
 use std::path::{Component, Path, PathBuf};
 use std::{fs, io};
-use windows_sys::Win32::Foundation::{self, ERROR_ACCESS_DENIED, HANDLE, INVALID_HANDLE_VALUE};
-use windows_sys::Win32::Storage::FileSystem::{
-    CreateFileW, FILE_ATTRIBUTE_DIRECTORY, FILE_FLAG_OPEN_REPARSE_POINT,
-};
 
 /// *Unsandboxed* function similar to `open`, but which does not perform
 /// sandboxing.

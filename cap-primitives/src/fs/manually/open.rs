@@ -6,17 +6,14 @@ use crate::fs::{
     dir_options, errors, open_unchecked, path_has_trailing_dot, path_has_trailing_slash,
     stat_unchecked, FollowSymlinks, MaybeOwnedFile, Metadata, OpenOptions, OpenUncheckedError,
 };
+#[cfg(windows)]
+use crate::fs::{open_dir_unchecked, path_really_has_trailing_dot, SymlinkKind};
 #[cfg(any(target_os = "android", target_os = "linux"))]
 use rustix::fs::OFlags;
 use std::borrow::Cow;
 use std::ffi::OsStr;
 use std::path::{Component, Path, PathBuf};
 use std::{fs, io, mem};
-#[cfg(windows)]
-use {
-    crate::fs::{open_dir_unchecked, path_really_has_trailing_dot, SymlinkKind},
-    windows_sys::Win32::Storage::FileSystem::FILE_ATTRIBUTE_DIRECTORY,
-};
 
 /// Implement `open` by breaking up the path into components, resolving each
 /// component individually, and resolving symbolic links manually.
@@ -492,7 +489,7 @@ pub(crate) fn stat(start: &fs::File, path: &Path, follow: FollowSymlinks) -> io:
                     // On Windows, symlinks know whether they are a file or
                     // directory.
                     #[cfg(windows)]
-                    if stat.file_attributes() & FILE_ATTRIBUTE_DIRECTORY != 0 {
+                    if stat.file_attributes() & 16 /*FILE_ATTRIBUTE_DIRECTORY*/ != 0 {
                         ctx.dir_required = true;
                     } else {
                         ctx.dir_precluded = true;

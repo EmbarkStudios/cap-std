@@ -1,10 +1,10 @@
 use crate::fs::{FollowSymlinks, OpenOptions};
-use std::fs;
-use std::os::windows::fs::OpenOptionsExt;
-use windows_sys::Win32::Storage::FileSystem::{
+use crate::windows::bindings::{
     FILE_FLAG_BACKUP_SEMANTICS, FILE_FLAG_OPEN_REPARSE_POINT, FILE_FLAG_WRITE_THROUGH,
     FILE_SHARE_DELETE,
 };
+use std::fs;
+use std::os::windows::fs::OpenOptionsExt;
 
 /// Adjust an `OpenOptions` after all the flags are set, in preparation
 /// for the to call a Windows API `open` function. Also return a bool

@@ -1,10 +1,8 @@
 use crate::fs::{open, OpenOptions, SystemTimeSpec};
+use crate::windows::bindings::{FILE_FLAG_BACKUP_SEMANTICS, FILE_FLAG_OPEN_REPARSE_POINT};
 use std::os::windows::fs::OpenOptionsExt;
 use std::path::Path;
 use std::{fs, io};
-use windows_sys::Win32::Storage::FileSystem::{
-    FILE_FLAG_BACKUP_SEMANTICS, FILE_FLAG_OPEN_REPARSE_POINT,
-};
 
 #[inline]
 pub(crate) fn set_times_impl(
